@@ -31,7 +31,8 @@ public class OrderRepository {
             }
         ls.add(orderId);
         partnerOrderMap.put(partnerId, ls);
-
+        DeliveryPartner partner = deliveryPartnerMap.get(partnerId);
+        partner.setNumberOfOrders(ls.size());
         orderPairMap.put(orderId,partnerId);
 
     }}
@@ -57,9 +58,7 @@ public class OrderRepository {
     public List<String> getOrdersByPartnerId(String partnerId){
         List<String> allOrders = new ArrayList<>();
         if(partnerOrderMap.containsKey(partnerId)){
-            for(String x: partnerOrderMap.get(partnerId)){
-                allOrders.add(x);
-            }
+            allOrders = partnerOrderMap.get(partnerId);
         }
         return allOrders;
     }
@@ -102,7 +101,7 @@ public class OrderRepository {
 
     //last delivery by partner
     public String getLastDeliveryTimeByPartnerId(String partnerId){
-        int max = Integer.MIN_VALUE;
+        int max = 0;
         for (List<String> x :partnerOrderMap.values()){
             for(String orders: x){
                 max = Math.max(orderMap.get(orders).getDeliveryTime(),max);
