@@ -42,8 +42,8 @@ public class OrderController {
 
     @GetMapping("/get-order-by-id/{orderId}")
     public ResponseEntity<Order> getOrderById(@PathVariable String orderId){
-
-        Order order = orderService.getOrderById(orderId);
+        Order order = null;
+        order = orderService.getOrderById(orderId);
         //order should be returned with an orderId.
 
         return new ResponseEntity<>(order, HttpStatus.CREATED);
@@ -51,8 +51,8 @@ public class OrderController {
 
     @GetMapping("/get-partner-by-id/{partnerId}")
     public ResponseEntity<DeliveryPartner> getPartnerById(@PathVariable String partnerId){
-
-        DeliveryPartner deliveryPartner = orderService.getPartner(partnerId);
+        DeliveryPartner deliveryPartner = null;
+         deliveryPartner = orderService.getPartner(partnerId);
 
         //deliveryPartner should contain the value given by partnerId
 
@@ -71,7 +71,8 @@ public class OrderController {
 
     @GetMapping("/get-orders-by-partner-id/{partnerId}")
     public ResponseEntity<List<String>> getOrdersByPartnerId(@PathVariable String partnerId){
-        List<String> orders = orderService.getOrdersByPartnerId(partnerId);
+        List<String> orders = null;
+        orders = orderService.getOrdersByPartnerId(partnerId);
 
         //orders should contain a list of orders by PartnerId
 
@@ -80,7 +81,8 @@ public class OrderController {
 
     @GetMapping("/get-all-orders")
     public ResponseEntity<List<String>> getAllOrders(){
-        List<String> orders = orderService.getAllOrders();
+        List<String> orders = null;
+         orders = orderService.getAllOrders();
 
         //Get all orders
         return new ResponseEntity<>(orders, HttpStatus.CREATED);
@@ -98,7 +100,8 @@ public class OrderController {
     @GetMapping("/get-count-of-orders-left-after-given-time/{partnerId}")
     public ResponseEntity<Integer> getOrdersLeftAfterGivenTimeByPartnerId(@PathVariable String time, @PathVariable String partnerId){
 
-        Integer countOfOrders = orderService.getOrdersLeftAfterGivenTimeByPartnerId(time,partnerId);
+        Integer countOfOrders = 0;
+        countOfOrders = orderService.getOrdersLeftAfterGivenTimeByPartnerId(time,partnerId);
 
         //countOfOrders that are left after a particular time of a DeliveryPartner
 

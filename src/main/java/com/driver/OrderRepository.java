@@ -48,8 +48,10 @@ public class OrderRepository {
 
     //get no of ordersByPartner
     public int getNoOfOrderByPartner(String partnerId){
-        return  partnerOrderMap.get(partnerId).size();
-
+        if(partnerOrderMap.containsKey(partnerId)) {
+            return partnerOrderMap.get(partnerId).size();
+        }
+        return 0;
     }
     //get list of orders by partner
     public List<String> getOrdersByPartnerId(String partnerId){
