@@ -53,7 +53,7 @@ public class OrderRepository {
         if(deliveryPartnerMap.containsKey(partnerId)) {
             count = deliveryPartnerMap.get(partnerId).getNumberOfOrders();
         }
-        return 0;
+        return count;
     }
     //get list of orders by partner
     public List<String> getOrdersByPartnerId(String partnerId){
