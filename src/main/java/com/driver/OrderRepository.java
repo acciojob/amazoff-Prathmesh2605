@@ -124,19 +124,11 @@ public class OrderRepository {
     //Delete partner
     public void deletePartner(String partnerId){
         List<String> allOrders = new ArrayList<>();
-        if(partnerOrderMap.containsKey(partnerId)){
-            allOrders = partnerOrderMap.get(partnerId);
-        for(String x:allOrders){
-            if(orderPairMap.containsKey(x)){
-                orderPairMap.remove(x);
-
-            }
-
-
+        Iterator temp =  allOrders.iterator();
+        if(temp.hasNext()){
+            String x = (String) temp.next();
+            orderPairMap.remove(x);
         }
-            partnerOrderMap.remove(partnerId);
-        }
-
         if(deliveryPartnerMap.containsKey(partnerId)){
             deliveryPartnerMap.remove(partnerId);
         }
