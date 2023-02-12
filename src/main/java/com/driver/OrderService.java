@@ -17,14 +17,14 @@ public class OrderService {
         orderRepository.addPartner(partnerId);
     }
     public void assignOrderToPartner(String orderId, String partnerId){
-        orderRepository.assignOrderToPartner(orderId,partnerId);
+        orderRepository.addOrderPartnerPair(orderId,partnerId);
     }
     public Order getOrderById(String orderId){
-        return orderRepository.getOrder(orderId);
+        return orderRepository.getOrderById(orderId);
 
     }
     public DeliveryPartner getPartner(String partnerId){
-        return orderRepository.getPartner(partnerId);
+        return orderRepository.getPartnerById(partnerId);
     }
     public int getNoOfOrderByPartner(String partnerId){
         return  orderRepository.getOrderCountByPartnerId(partnerId);
