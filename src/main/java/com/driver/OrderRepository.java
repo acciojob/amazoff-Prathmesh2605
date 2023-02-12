@@ -56,13 +56,13 @@ public class OrderRepository {
 
     }
     //get list of orders by partner
-    public HashSet<String> getOrdersByPartnerId(String partnerId){
+    public List<String> getOrdersByPartnerId(String partnerId){
         HashSet<String>allOrders = new HashSet<>();
 
         if(partnerOrderMap.containsKey(partnerId)){
             allOrders = partnerOrderMap.get(partnerId);
         }
-        return allOrders;
+        return new ArrayList<>(allOrders);
     }
     //get all orders
     public List<String> getAllOrders(){

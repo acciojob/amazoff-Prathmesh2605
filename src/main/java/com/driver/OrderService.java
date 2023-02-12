@@ -3,7 +3,6 @@ package com.driver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -31,7 +30,7 @@ public class OrderService {
         return  orderRepository.getNoOfOrderByPartner(partnerId);
 
     }
-    public HashSet<String> getOrdersByPartnerId(String partnerId){
+    public List<String> getOrdersByPartnerId(String partnerId){
         return orderRepository.getOrdersByPartnerId(partnerId);
     }
 
