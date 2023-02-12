@@ -147,6 +147,7 @@ public class OrderRepository {
 
     //delete order
     public void deleteOrder(String orderId){
+        orderMap.remove(orderId);
        if(orderPairMap.containsKey(orderId)){
            String partnerId = orderPairMap.get(orderId);
            HashSet<String> orders = partnerOrderMap.get(partnerId);
