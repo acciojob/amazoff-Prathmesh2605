@@ -65,11 +65,7 @@ public class OrderRepository {
     }
     //get all orders
     public List<String> getAllOrders(){
-        List<String> allOrders = new ArrayList<>();
-        for(String x: orderMap.keySet()){
-            allOrders.add(x);
-        }
-        return allOrders;
+        return new ArrayList<>(orderMap.keySet());
     }
 
     //count of unassigned orders
@@ -105,19 +101,31 @@ public class OrderRepository {
     //last delivery by partner
     public String getLastDeliveryTimeByPartnerId(String partnerId){
         int max = 0;
-        for (List<String> x :partnerOrderMap.values()){
-            for(String orders: x){
-                max = Math.max(orderMap.get(orders).getDeliveryTime(),max);
+        if(partnerOrderMap.containsKey(partnerId)){
+            List<String> orders = partnerOrderMap.get(partnerId);
+        for (String order: orders){
+            if(orderMap.containsKey(order)){
+                Order currOrder = orderMap.get(order);
+                max = Math.max(currOrder.getDeliveryTime(),max);
 
 
             }
-        }
-        return String.valueOf(max);
+        }}
+        int hour = max/60;
+        int minutes = max%60;
+
+        String hourS = String.valueOf(hour);
+        String minS = String.valueOf(minutes);
+        if(hourS.length()==1)hourS="0"+hourS;
+        if(minS.length()==1)minS="0"+minS;
+        return hourS+":"+minS;
     }
 
     //Delete partner
     public void deletePartner(String partnerId){
-        List<String> allOrders = partnerOrderMap.get(partnerId);
+        List<String> allOrders = new ArrayList<>();
+        if(partnerOrderMap.containsKey(partnerId)){
+            allOrders = partnerOrderMap.get(partnerId);
         for(String x:allOrders){
             if(orderPairMap.containsKey(x)){
                 orderPairMap.remove(x);
@@ -126,7 +134,9 @@ public class OrderRepository {
 
 
         }
-        partnerOrderMap.remove(partnerId);
+            partnerOrderMap.remove(partnerId);
+        }
+
         if(deliveryPartnerMap.containsKey(partnerId)){
             deliveryPartnerMap.remove(partnerId);
         }
@@ -134,9 +144,15 @@ public class OrderRepository {
 
     //delete order
     public void deleteOrder(String orderId){
-        orderPairMap.remove(orderId);
+       if(orderPairMap.containsKey(orderId)){
+           String partnerId = orderPairMap.get(orderId);
+           List<String> orders = partnerOrderMap.get(partnerId);
+           orders.remove(orderId);
+           partnerOrderMap.put(partnerId,orders);
 
-        orderMap.remove(orderId);
+           DeliveryPartner partner = deliveryPartnerMap.get(partnerId);
+           partner.setNumberOfOrders(orders.size());
+       }
 
     }
 
