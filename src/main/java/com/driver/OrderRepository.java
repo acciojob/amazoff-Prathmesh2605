@@ -130,19 +130,21 @@ public class OrderRepository {
 
     //Delete partner
     public void deletePartner(String partnerId){
-        HashSet<String> allOrders = new HashSet<>();
+        deliveryPartnerMap.remove(partnerId);
+
         if(partnerOrderMap.containsKey(partnerId)){
-            allOrders = partnerOrderMap.get(partnerId);
-        for(String x:allOrders){
-            if(orderPairMap.containsKey(x)){
-                orderPairMap.remove(x);
-            }
-        }
             partnerOrderMap.remove(partnerId);
+            HashSet<String> allOrders = new HashSet<>();
+
+            for(String order: orderPairMap.keySet()){
+            if(orderPairMap.get(order).equals(partnerId)){
+                allOrders.add(order);
+            }
+            for(String x:allOrders)  orderPairMap.remove(x);
         }
-        if(deliveryPartnerMap.containsKey(partnerId)){
-            deliveryPartnerMap.remove(partnerId);
+
         }
+
     }
 
     //delete order
