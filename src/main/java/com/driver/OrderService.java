@@ -39,12 +39,14 @@ public class OrderService {
     }
 
     public int getCountOfUnassignedOrders(){
-        return orderRepository.getCountOfUnassignedOrders();
+        int countOfOrders = orderRepository.getCountOfUnassignedOrders();
+        return countOfOrders;
 
     }
 
-    public int getOrdersLeftAfterGivenTimeByPartnerId(String time, String partnerId){
-        return orderRepository.getOrdersLeftAfterGivenTimeByPartnerId(time,partnerId);
+    public int getOrdersLeftAfterGivenTimeByPartnerId(String time,String partnerId){
+        int countOfOrders = orderRepository.getOrdersLeftAfterGivenTimeByPartnerId(time, partnerId);
+        return countOfOrders;
     }
 
     public String getLastDeliveryTimeByPartnerId(String partnerId){

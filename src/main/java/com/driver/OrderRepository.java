@@ -19,7 +19,9 @@ public class OrderRepository {
     }
 
     public void addPartner(String partnerId){
-        deliveryPartnerMap.put(partnerId, new DeliveryPartner(partnerId));
+        DeliveryPartner partner = new DeliveryPartner(partnerId);
+        deliveryPartnerMap.put(partnerId,partner);
+
     }
 
     //Assign an order to a partner
@@ -44,7 +46,7 @@ public class OrderRepository {
 
     //get partner by id
     public DeliveryPartner getPartner(String partnerId){
-        return deliveryPartnerMap.get(partnerId);
+        return deliveryPartnerMap.getOrDefault(partnerId,null);
     }
 
     //get no of ordersByPartner
@@ -72,13 +74,7 @@ public class OrderRepository {
     //count of unassigned orders
     public int getCountOfUnassignedOrders(){
         Integer count = 0;
-        HashSet<String> orders = new HashSet<>(orderMap.keySet());
-
-        for(String order: orders){
-            if(!orderPairMap.containsKey(order)){
-                count++;
-            }
-        }
+        count= orderMap.size()-orderPairMap.size();
         return count;
     }
 
@@ -130,20 +126,18 @@ public class OrderRepository {
 
     //Delete partner
     public void deletePartner(String partnerId){
+        deliveryPartnerMap.remove(partnerId);
 
-        HashSet<String> allOrders = new HashSet<>();
-        if(partnerOrderMap.containsKey(partnerId)){
-            allOrders = partnerOrderMap.get(partnerId);
-        for(String x:allOrders){
-            if(orderPairMap.containsKey(x)){
-                orderPairMap.remove(x);
-            }
+        HashSet<String> allOrders = partnerOrderMap.get(partnerId);
+        Iterator itr = allOrders.iterator();
+        while (itr.hasNext()){
+            String s = (String) itr.next();
+            orderPairMap.remove(s);
         }
+        partnerOrderMap.remove(partnerId);
 
-        }
-        if(deliveryPartnerMap.containsKey(partnerId)){
-            deliveryPartnerMap.remove(partnerId);
-        }
+
+
     }
 
     //delete order
