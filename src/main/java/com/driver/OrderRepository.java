@@ -71,7 +71,7 @@ public class OrderRepository {
 
     //count of unassigned orders
     public int getCountOfUnassignedOrders(){
-        int count = 0;
+        Integer count = 0;
         HashSet<String> orders = new HashSet<>(orderMap.keySet());
 
         for(String order: orders){
@@ -84,10 +84,10 @@ public class OrderRepository {
 
     //count of order left undelivered after given time
     public int getOrdersLeftAfterGivenTimeByPartnerId(String time, String partnerId){
-        int count = 0;
+        Integer count = 0;
         Integer hour = Integer.valueOf(time.substring(0, 2));
         Integer minutes = Integer.valueOf(time.substring(3));
-        int dtime = hour*60+minutes;
+        Integer dtime = hour*60+minutes;
 
         if(partnerOrderMap.containsKey(partnerId)){
             HashSet<String> x  = partnerOrderMap.get(partnerId);
@@ -107,7 +107,7 @@ public class OrderRepository {
 
     //last delivery by partner
     public String getLastDeliveryTimeByPartnerId(String partnerId){
-        int max = 0;
+        Integer max = 0;
         if(partnerOrderMap.containsKey(partnerId)){
             HashSet<String> orders= partnerOrderMap.get(partnerId);
         for (String order: orders){
@@ -130,21 +130,20 @@ public class OrderRepository {
 
     //Delete partner
     public void deletePartner(String partnerId){
-        deliveryPartnerMap.remove(partnerId);
 
+        HashSet<String> allOrders = new HashSet<>();
         if(partnerOrderMap.containsKey(partnerId)){
-            partnerOrderMap.remove(partnerId);
-            HashSet<String> allOrders = new HashSet<>();
-
-            for(String order: orderPairMap.keySet()){
-            if(orderPairMap.get(order).equals(partnerId)){
-                allOrders.add(order);
+            allOrders = partnerOrderMap.get(partnerId);
+        for(String x:allOrders){
+            if(orderPairMap.containsKey(x)){
+                orderPairMap.remove(x);
             }
-            for(String x:allOrders)  orderPairMap.remove(x);
         }
 
         }
-
+        if(deliveryPartnerMap.containsKey(partnerId)){
+            deliveryPartnerMap.remove(partnerId);
+        }
     }
 
     //delete order
