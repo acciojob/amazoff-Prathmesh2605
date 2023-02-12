@@ -49,11 +49,11 @@ public class OrderRepository {
 
     //get no of ordersByPartner
     public int getNoOfOrderByPartner(String partnerId){
-        int count =0;
-        if(deliveryPartnerMap.containsKey(partnerId)) {
-            count = deliveryPartnerMap.get(partnerId).getNumberOfOrders();
-        }
-        return count;
+       if(partnerOrderMap.containsKey(partnerId)){
+           return partnerOrderMap.get(partnerId).size();
+       }
+       return 0;
+
     }
     //get list of orders by partner
     public List<String> getOrdersByPartnerId(String partnerId){
@@ -69,11 +69,15 @@ public class OrderRepository {
     }
 
     //count of unassigned orders
-    public int getCountOfUnassignedOrders(String partnerId){
-        if(partnerOrderMap.containsKey(partnerId)){
-            return partnerOrderMap.get(partnerId).size();
+    public int getCountOfUnassignedOrders(){
+        int count = 0;
+        List<String> orders = new ArrayList<>(orderMap.keySet());
+        for(String order: orders){
+            if(!orderPairMap.containsKey(order)){
+                count++;
+            }
         }
-        return 0;
+        return count;
     }
 
     //count of order left undelivered after given time
