@@ -69,15 +69,11 @@ public class OrderRepository {
     }
 
     //count of unassigned orders
-    public int getCountOfUnassignedOrders(){
-        int count = 0;
-        List<String> orders = new ArrayList<>(orderMap.keySet());
-        for(String order: orders){
-            if(!orderPairMap.containsKey(order)){
-                count++;
-            }
+    public int getCountOfUnassignedOrders(String partnerId){
+        if(partnerOrderMap.containsKey(partnerId)){
+            return partnerOrderMap.get(partnerId).size();
         }
-        return count;
+        return 0;
     }
 
     //count of order left undelivered after given time
